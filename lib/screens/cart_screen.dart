@@ -44,7 +44,8 @@ class CartScreen extends StatelessWidget {
                   const Spacer(),
                   Text(
                     '\$${listnableCart.totalAmount.toStringAsFixed(2)}',
-                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w600, fontSize: 20),
                   ),
                   const SizedBox(width: 20),
                   TextButton(
@@ -59,7 +60,8 @@ class CartScreen extends StatelessWidget {
                             // Order functionality
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                backgroundColor: Color.fromARGB(255, 255, 229, 214),
+                                backgroundColor:
+                                    Color.fromARGB(255, 255, 229, 214),
                                 content: Text(
                                   "Purchase completed!",
                                   style: TextStyle(
@@ -70,11 +72,14 @@ class CartScreen extends StatelessWidget {
                             );
                           },
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 8.0),
                       child: Text(
                         'ORDER NOW',
                         style: TextStyle(
-                          color: listnableCart.itemCount == 0 ? Colors.grey[100] : Colors.white,
+                          color: listnableCart.itemCount == 0
+                              ? Colors.grey[100]
+                              : Colors.white,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -93,7 +98,7 @@ class CartScreen extends StatelessWidget {
               itemCount: listnableCart.items.length,
               itemBuilder: (ctx, i) => CartItemWidget(
                 cartItem: listnableCart.items.values.toList()[i],
-                removeItem: listnableCart.removeItem,
+                removeItem: listnableCart.dismissItem,
               ),
             ),
           )

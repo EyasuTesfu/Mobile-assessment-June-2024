@@ -1,5 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_assessment/models/cart.dart';
+import 'package:flutter_assessment/screens/cart_screen.dart';
+import 'package:provider/provider.dart';
 import '../models/product/product.dart';
 
 class ProductDetailScreen extends StatelessWidget {
@@ -9,6 +12,7 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final listnableCart = Provider.of<Cart>(context);
     return Scaffold(
       appBar: AppBar(
           title: Text(product.title!),
@@ -58,7 +62,64 @@ class ProductDetailScreen extends StatelessWidget {
               textAlign: TextAlign.center,
               softWrap: true,
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                      ),
+                      onPressed: () {
+                        listnableCart.removeItem(product.id.toString());
+                      },
+                      child: Icon(
+                        Icons.remove,
+                        color: Colors.white,
+                      )),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Text(listnableCart.items[product.id.toString()]?.quantity
+                        .toString() ??
+                    '0'),
+                SizedBox(
+                  width: 20,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                    ),
+                    onPressed: () {
+                      listnableCart.addItem(product: product);
+                    },
+                    child: Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (ctx) => const CartScreen(),
+            ),
+          );
+        },
+        child: Text(
+          '${listnableCart.itemCount}',
+          style: const TextStyle(color: Colors.black, fontSize: 20),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_assessment/screens/cart_screen.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/product/product.dart';
@@ -21,7 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _fetchProducts() async {
-    final response = await http.get(Uri.parse('https://fakestoreapi.com/products'));
+    final response =
+        await http.get(Uri.parse('https://fakestoreapi.com/products'));
     final List<dynamic> productData = json.decode(response.body);
     setState(() {
       _products = productData.map((json) => Product.fromMap(json)).toList();
@@ -56,6 +58,20 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (ctx) => const CartScreen(),
+            ),
+          );
+        },
+        backgroundColor: Colors.white,
+        child: const Icon(
+          Icons.shopping_cart,
+          color: Colors.black,
         ),
       ),
     );

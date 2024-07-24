@@ -6,8 +6,10 @@ class CartItem {
   final String title;
   final int quantity;
   final double price;
+  final String? image;
 
   CartItem({
+    this.image,
     required this.id,
     required this.title,
     required this.quantity,
@@ -39,6 +41,7 @@ class Cart with ChangeNotifier {
       _items.update(
         product.id.toString(),
         (existingCartItem) => CartItem(
+          image: existingCartItem.image,
           id: existingCartItem.id,
           title: existingCartItem.title,
           quantity: existingCartItem.quantity + 1,
@@ -49,6 +52,7 @@ class Cart with ChangeNotifier {
       _items.putIfAbsent(
         product.id.toString(),
         () => CartItem(
+          image: product.image,
           id: DateTime.now().toString(),
           title: product.title!,
           quantity: 1,
@@ -60,6 +64,27 @@ class Cart with ChangeNotifier {
   }
 
   void removeItem(String productId) {
+    if (_items.containsKey(productId.toString())) {
+      if (_items[productId]!.quantity > 0) {
+        _items.update(
+          productId.toString(),
+          (existingCartItem) => CartItem(
+            image: existingCartItem.image,
+            id: existingCartItem.id,
+            title: existingCartItem.title,
+            quantity: existingCartItem.quantity - 1,
+            price: existingCartItem.price,
+          ),
+        );
+        notifyListeners();
+      } else {
+        _items.remove(productId);
+        notifyListeners();
+      }
+    } else {}
+  }
+
+  void dismissItem(String productId) {
     _items.remove(productId);
     notifyListeners();
   }
